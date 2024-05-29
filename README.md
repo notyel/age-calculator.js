@@ -82,6 +82,8 @@ Las contribuciones son bienvenidas. Por favor, sigue estos pasos:
 
 Este proyecto está bajo la licencia MIT. Ver el archivo [LICENSE](LICENSE) para más detalles.
 
-### Autor
+### Creador
 
-Desarrollado por [Leyton Manuel Espitia Diaz](https://github.com/notyel).
+- Autor - [Leyton Manuel Espitia Diaz](https://github.com/notyel)
+- Twitter - [@leyton_network](https://twitter.com/Leyton_Network)
+- LinkedIn - [Curriculum vitae](https://www.linkedin.com/in/leyton-manuel-espitia-diaz-5497a33b/)
