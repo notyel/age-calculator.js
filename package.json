@@ -1,0 +1,33 @@
+{
+  "name": "age-calculator-js",
+  "version": "1.0.0",
+  "description": "Una biblioteca de JavaScript simple para calcular la edad desde la fecha de nacimiento",
+  "main": "dist/ageCalculator.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "node dist/test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tu-usuario/age-calculator-js.git"
+  },
+  "keywords": [
+    "age",
+    "age calculator",
+    "age-calculator",
+    "calculate age",
+    "find age",
+    "typescript",
+    "library",
+    "calculator"
+  ],
+  "author": "Leyton Manuel Espitia Diaz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tu-usuario/age-calculator-js/issues"
+  },
+  "homepage": "https://github.com/tu-usuario/age-calculator-js#readme",
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}
