@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tu-usuario/age-calculator-js.git"
+    "url": "git+https://github.com/notyel/age-calculator.js.git"
   },
   "keywords": [
     "age",
@@ -24,9 +24,9 @@
   "author": "Leyton Manuel Espitia Diaz",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/tu-usuario/age-calculator-js/issues"
+    "url": "https://github.com/notyel/age-calculator.js.git/issues"
   },
-  "homepage": "https://github.com/tu-usuario/age-calculator-js#readme",
+  "homepage": "https://github.com/notyel/age-calculator.js.git#readme",
   "devDependencies": {
     "typescript": "^5.4.5"
   }
