@@ -32,7 +32,7 @@ console.log(age); // Debería imprimir la edad basada en la fecha actual
 El proyecto está organizado de la siguiente manera:
 
 ```
-age-calculation-library/
+age-calculator.js/
 ├── dist/               # Archivos compilados
 │   ├── ageCalculator.js
 │   └── test/
