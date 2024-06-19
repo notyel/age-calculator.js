@@ -49,15 +49,28 @@ El proyecto está organizado de la siguiente manera:
 ```
 age-calculator.js/
 ├── dist/               # Archivos compilados
-│   ├── ageCalculator.js
-│   └── test/
-│       └── test.js
+│   ├── browser/
+│   │   ├── ageCalculator.js
+│   │   └── test/
+│   │       └── test.js
+│   └── node/
+│       ├── ageCalculator.js
+│       └── test/
+│           └── test.js
 ├── src/                # Código fuente en TypeScript
-│   └── ageCalculator.ts
+│   ├── ageCalculator.ts
+│   └── test/
+│       └── test.ts
 ├── test/               # Archivos de prueba en TypeScript
 │   └── test.ts
+├── .gitignore
+├── LICENSE
+├── package-lock.json
 ├── package.json        # Configuración del proyecto y dependencias
-└── tsconfig.json       # Configuración de TypeScript
+├── README.md
+├── tsconfig.browser.json  # Configuración de TypeScript para el navegador
+├── tsconfig.json        # Configuración de TypeScript general
+└── tsconfig.node.json   # Configuración de TypeScript para Node.js
 ```
 
 ### Compilación
