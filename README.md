@@ -1,6 +1,6 @@
-# age-calculator-js
+# age-calculation-library
 
-`age-calculator-js` es una librería sencilla en JavaScript (TypeScript) para calcular la edad a partir de una fecha de nacimiento.
+`age-calculation-library` es una librería sencilla en JavaScript (TypeScript) para calcular la edad a partir de una fecha de nacimiento.
 
 ## Instalación
 
@@ -32,7 +32,7 @@ console.log(age); // Debería imprimir la edad basada en la fecha actual
 El proyecto está organizado de la siguiente manera:
 
 ```
-age-calculator-js/
+age-calculation-library/
 ├── dist/               # Archivos compilados
 │   ├── ageCalculator.js
 │   └── test/

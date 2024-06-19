@@ -1,10 +1,10 @@
 {
-  "name": "age-calculator-js",
-  "version": "0.5.0",
+  "name": "age-calculation-library",
+  "version": "0.5.1",
   "description": "Una biblioteca de JavaScript simple para calcular la edad desde la fecha de nacimiento",
-  "main": "dist/node/index.js",
-  "module": "dist/browser/index.js",
-  "browser": "dist/browser/index.js",
+  "main": "dist/node/ageCalculator.js",
+  "module": "dist/browser/ageCalculator.js",
+  "browser": "dist/browser/ageCalculator.js",
   "scripts": {
     "build": "npm run build-node && npm run build-browser",
     "build-node": "tsc -p tsconfig.node.json",
