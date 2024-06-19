@@ -4,25 +4,40 @@
 
 ## Instalación
 
-Para utilizar esta librería, primero clona el repositorio y luego instala las dependencias usando `npm`.
+Instala la librería utilizando npm:
 
 ```bash
-git clone https://github.com/notyel/age-calculator.js.git
-cd age-calculator.js
-npm install
+npm install age-calculation-library
 ```
 
 ## Uso
 
-Para usar la librería en tu proyecto, puedes importar la función `calculateAge` y utilizarla para calcular la edad de una persona basada en su fecha de nacimiento.
+### Uso con CommonJS (Node.js)
 
-### Ejemplo
+```javascript
+// Importar la función calculateAge desde la biblioteca
+const { calculateAge } = require("age-calculation-library");
 
-```typescript
-import { calculateAge } from "./dist/ageCalculator";
+// Fecha de nacimiento para calcular la edad
+const fechaNacimiento = "1990-05-25";
 
-const age = calculateAge("1990-05-25");
-console.log(age); // Debería imprimir la edad basada en la fecha actual
+// Calcular la edad basada en la fecha actual
+const edad = calculateAge(fechaNacimiento);
+console.log(edad); // Debería imprimir la edad basada en la fecha actual
+```
+
+### Uso con ES6 Module Syntax
+
+```javascript
+// Importar la función calculateAge desde la biblioteca
+import { calculateAge } from "age-calculation-library";
+
+// Fecha de nacimiento para calcular la edad
+const fechaNacimiento = "1990-05-25";
+
+// Calcular la edad basada en la fecha actual
+const edad = calculateAge(fechaNacimiento);
+console.log(edad); // Debería imprimir la edad basada en la fecha actual
 ```
 
 ## Desarrollo
@@ -46,6 +61,14 @@ age-calculator.js/
 ```
 
 ### Compilación
+
+Para compilar esta librería, primero descarga el repositorio desde GitHub y luego instala las dependencias usando npm:
+
+```bash
+git clone https://github.com/notyel/age-calculator.js.git
+cd age-calculator.js
+npm install
+```
 
 Para compilar el código TypeScript en JavaScript, ejecuta el siguiente comando:
 
