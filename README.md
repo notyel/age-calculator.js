@@ -1,7 +1,6 @@
 # age-calculation-library
 
-`age-calculation-library` es una librería sencilla en JavaScript (TypeScript) para calcular la edad a partir de una fecha de nacimiento.
-
+`age-calculation-library` es una librería desarrollada en JavaScript y compatible con TypeScript, diseñada específicamente para calcular de manera precisa la edad de una persona o entidad a partir de una fecha de nacimiento proporcionada. Esta herramienta se enfoca en ofrecer una solución eficiente y fácil de implementar para desarrolladores que necesitan realizar cálculos de edad en sus aplicaciones, sin tener que lidiar con la complejidad de las fechas y el manejo de diferentes zonas horarias. Con una interfaz sencilla y bien documentada, la librería permite obtener resultados confiables y exactos, adaptándose a diversas situaciones y formatos de fechas, lo que la convierte en una opción ideal para proyectos que requieran este tipo de funcionalidad en plataformas web, móviles o de escritorio que están construidas con tecnologías web, tales como aplicaciones desarrolladas con frameworks de JavaScript, HTML y CSS.
 ## Instalación
 
 Instala la librería utilizando npm:
