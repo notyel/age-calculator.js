@@ -1,0 +1,299 @@
+<header class="masthead">
+  <p class="eyebrow">age-calculation-library · v2</p>
+  <h1>Calcular una edad es más difícil de lo que parece</h1>
+  <p class="lede">
+    Cambia el idioma, el huso horario o el país y mira cómo se mueve el resultado.
+    Todo lo que ves lo calcula la librería en el navegador; no hay servidor detrás.
+  </p>
+</header>
+
+<section class="presets" aria-label="Ejemplos">
+  @for (preset of presets; track preset.label) {
+    <button type="button" class="preset" (click)="applyPreset(preset)">
+      <span class="preset-label">{{ preset.label }}</span>
+      <span class="preset-hint">{{ preset.hint }}</span>
+    </button>
+  }
+</section>
+
+<div class="layout">
+  <form class="panel controls" (submit)="$event.preventDefault()">
+    <h2>Entrada</h2>
+
+    <label class="field">
+      <span class="field-label">Fecha de nacimiento</span>
+      <input
+        type="text"
+        class="field-input birth"
+        autocomplete="bday"
+        spellcheck="false"
+        [value]="birthDate()"
+        (input)="onInput($event, birthDate)"
+      />
+      <span class="field-help">
+        ISO, formato regional o el mes escrito con letras: <code>1990-05-25</code>,
+        <code>25/05/1990</code>, <code>25 de mayo de 1990</code>.
+      </span>
+    </label>
+
+    <label class="field">
+      <span class="field-label">Idioma y región</span>
+      <select class="field-input" [value]="locale()" (change)="onInput($event, locale)">
+        @for (option of locales; track option.value) {
+          <option [value]="option.value">{{ option.label }}</option>
+        }
+      </select>
+      <span class="field-help">
+        Decide cómo se leen las fechas ambiguas y en qué idioma se escribe todo.
+      </span>
+    </label>
+
+    <label class="field">
+      <span class="field-label">Zona horaria</span>
+      <select class="field-input" [value]="timeZone()" (change)="onInput($event, timeZone)">
+        @for (option of timeZones; track option.value) {
+          <option [value]="option.value">{{ option.label }}</option>
+        }
+      </select>
+      <span class="field-help">Determina qué día es «hoy» y, con él, la edad.</span>
+    </label>
+
+    <label class="field">
+      <span class="field-label">Mayoría de edad</span>
+      <select class="field-input" [value]="country()" (change)="onInput($event, country)">
+        @for (option of countries; track option.value) {
+          <option [value]="option.value">{{ option.label }}</option>
+        }
+      </select>
+    </label>
+
+    <label class="field">
+      <span class="field-label">Sistema de cómputo</span>
+      <select class="field-input" [value]="reckoning()" (change)="onInput($event, reckoning)">
+        @for (option of reckonings; track option.value) {
+          <option [value]="option.value">{{ option.label }}</option>
+        }
+      </select>
+    </label>
+
+    <label class="field">
+      <span class="field-label">Cumpleaños del 29 de febrero</span>
+      <select class="field-input" [value]="leapDayRule()" (change)="onInput($event, leapDayRule)">
+        @for (option of leapRules; track option.value) {
+          <option [value]="option.value">{{ option.label }}</option>
+        }
+      </select>
+    </label>
+
+    <label class="field">
+      <span class="field-label">Calcular a fecha de (opcional)</span>
+      <input
+        type="date"
+        class="field-input"
+        [value]="referenceDate()"
+        (input)="onInput($event, referenceDate)"
+      />
+      <span class="field-help">
+        En blanco usa el instante actual. Con una fecha, congela el «hoy»: así se
+        responde «¿qué edad tenía cuando firmó?».
+      </span>
+    </label>
+
+    <button type="button" class="reset" (click)="reset()">Restablecer</button>
+  </form>
+
+  <div class="results">
+    @if (error(); as message) {
+      <p class="alert" role="alert">{{ message }}</p>
+    }
+
+    @if (report(); as r) {
+      <section class="panel headline-panel">
+        <p class="headline">{{ r.headline }}</p>
+        <p class="headline-sub">{{ r.full }}</p>
+        <dl class="headline-meta">
+          <div>
+            <dt>Nació</dt>
+            <dd>{{ r.birthPretty }}</dd>
+          </div>
+          <div>
+            <dt>Fue un</dt>
+            <dd>{{ r.weekdayBorn }}</dd>
+          </div>
+          <div>
+            <dt>Se calcula en</dt>
+            <dd>{{ r.details.timeZone }}</dd>
+          </div>
+          <div>
+            <dt>Contra el día</dt>
+            <dd>{{ r.details.referenceDate }}</dd>
+          </div>
+        </dl>
+      </section>
+
+      @if (r.details.reckonedAge !== westernAge() && westernAge() !== null) {
+        <section class="panel note-panel">
+          <h2>Dos edades a la vez</h2>
+          <p>
+            Con el sistema <strong>{{ r.reckoningLabel }}</strong> tiene
+            <strong>{{ r.details.reckonedAge }}</strong> años, mientras que la edad
+            occidental es <strong>{{ westernAge() }}</strong>. No es un error de
+            cálculo: son dos formas distintas de contar, y las dos son la oficial en
+            algún sitio.
+          </p>
+        </section>
+      }
+
+      <section class="panel">
+        <h2>La misma persona, seis husos horarios</h2>
+        <p class="panel-intro">
+          Todos comparten el mismo instante. Lo que cambia es qué día se vive en cada
+          sitio, y con él la edad. Restar milisegundos no distingue estos casos.
+        </p>
+        <table class="grid">
+          <thead>
+            <tr>
+              <th scope="col">Zona</th>
+              <th scope="col">Su fecha de hoy</th>
+              <th scope="col" class="num">Edad</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of zoneRows(); track row.zone) {
+              <tr [class.is-birthday]="row.isBirthday">
+                <th scope="row">{{ zoneLabel(row.zone) }}</th>
+                <td><code>{{ row.localDate }}</code></td>
+                <td class="num">
+                  {{ row.age }}
+                  @if (row.isBirthday) {
+                    <span class="badge" title="Hoy es su cumpleaños aquí">🎂</span>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </section>
+
+      <div class="pair">
+        <section class="panel">
+          <h2>Próximo cumpleaños</h2>
+          <p class="big">{{ r.next.daysUntil }}</p>
+          <p class="big-caption">
+            {{ r.next.daysUntil === 1 ? 'día' : 'días' }} — {{ r.timeToNext }}
+          </p>
+          <dl class="rows">
+            <div>
+              <dt>Fecha</dt>
+              <dd><code>{{ r.next.date }}</code></dd>
+            </div>
+            <div>
+              <dt>Cae en</dt>
+              <dd>{{ r.nextWeekday }}</dd>
+            </div>
+            <div>
+              <dt>Cumple</dt>
+              <dd>{{ r.next.turningAge }} años</dd>
+            </div>
+            @if (r.details.bornOnLeapDay) {
+              <div>
+                <dt>Nota</dt>
+                <dd>Nació un 29 de febrero: la fecha depende de la regla elegida.</dd>
+              </div>
+            }
+          </dl>
+        </section>
+
+        <section class="panel">
+          <h2>Mayoría de edad</h2>
+          <p class="big" [class.ok]="r.legal.isAdult" [class.pending]="!r.legal.isAdult">
+            {{ r.legal.isAdult ? 'Sí' : 'Todavía no' }}
+          </p>
+          <p class="big-caption">
+            {{ r.legal.country }} la fija en {{ r.legal.ageOfMajority }} años
+          </p>
+          <dl class="rows">
+            <div>
+              <dt>La alcanza el</dt>
+              <dd><code>{{ r.legal.majorityDate }}</code></dd>
+            </div>
+            @if (!r.legal.isAdult) {
+              <div>
+                <dt>Le faltan</dt>
+                <dd>{{ r.legal.daysUntilMajority }} días</dd>
+              </div>
+            }
+          </dl>
+          <p class="disclaimer">
+            Tabla informativa, no asesoría legal: muchas jurisdicciones fijan edades
+            distintas según la materia.
+          </p>
+        </section>
+      </div>
+
+      <section class="panel">
+        <h2>La edad en otras unidades</h2>
+        <ul class="tiles">
+          @for (unit of r.units; track unit.label) {
+            <li>
+              <span class="tile-value">{{ unit.value }}</span>
+              <span class="tile-label">{{ unit.label }}</span>
+            </li>
+          }
+        </ul>
+      </section>
+
+      <section class="panel">
+        <h2>La misma fecha en otros calendarios</h2>
+        <p class="panel-intro">
+          El cálculo siempre es gregoriano; esto sólo cambia cómo se escribe la fecha.
+          Lo pone <code>Intl</code> con los datos de CLDR, no una tabla nuestra.
+        </p>
+        <dl class="rows">
+          @for (calendar of r.calendars; track calendar.label) {
+            <div>
+              <dt>{{ calendar.label }}</dt>
+              <dd>{{ calendar.value }}</dd>
+            </div>
+          }
+        </dl>
+      </section>
+
+      <section class="panel">
+        <h2>De propina</h2>
+        <dl class="rows">
+          <div>
+            <dt>Zodiaco</dt>
+            <dd>
+              {{ r.zodiac.symbol }} {{ r.zodiac.name }}
+              <span class="muted">· {{ elementLabel(r.zodiac.element) }}</span>
+            </dd>
+          </div>
+          <div>
+            <dt>Zodiaco chino</dt>
+            <dd>
+              {{ r.chinese.branch }} {{ r.chinese.name }}
+              <span class="muted">· {{ elementLabel(r.chinese.element) }}</span>
+            </dd>
+          </div>
+          <div>
+            <dt>Generación</dt>
+            <dd>{{ r.generation }}</dd>
+          </div>
+          <div>
+            <dt>Etapa vital</dt>
+            <dd>{{ r.lifeStage }}</dd>
+          </div>
+        </dl>
+      </section>
+    }
+  </div>
+</div>
+
+<footer class="footer">
+  <p>
+    Código fuente en
+    <a href="https://github.com/notyel/age-calculator.js">github.com/notyel/age-calculator.js</a>
+    · MIT
+  </p>
+</footer>
