@@ -1,0 +1,63 @@
+name: Publicar el demo en GitHub Pages
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Se deja terminar el despliegue en curso y se encola uno solo detrás: sirve el
+# último commit sin cancelar una publicación a medias.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Construir
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # El CLI de Angular 22 exige Node >= 24.15.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: demo/package-lock.json
+
+      - run: npm ci
+        working-directory: demo
+
+      # El sitio cuelga de /age-calculator.js/, no de la raíz del dominio.
+      - name: Construir con la base de GitHub Pages
+        run: npm run build:pages
+        working-directory: demo
+
+      # Sin este archivo, Pages pasa la salida por Jekyll y descarta lo que
+      # empiece por guion bajo.
+      - name: Desactivar Jekyll
+        run: touch demo/dist/demo/browser/.nojekyll
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: demo/dist/demo/browser
+
+  deploy:
+    name: Desplegar
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
