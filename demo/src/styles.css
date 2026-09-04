@@ -1,0 +1,74 @@
+/* Tokens y reglas de base. La paleta se define entera en :root y sólo se
+   redefinen los tokens en modo oscuro, para que ningún color quede definido
+   únicamente dentro de una media query. */
+
+:root {
+  color-scheme: light dark;
+
+  --mono: ui-monospace, "SFMono-Regular", "Cascadia Code", Menlo, Consolas, monospace;
+
+  --bg: #f7f7f5;
+  --surface: #ffffff;
+  --surface-strong: #fbfaf8;
+  --input-bg: #f3f3f0;
+  --border: #e2e1dc;
+  --fg: #1c1b19;
+  --muted: #6b6a65;
+  --accent: #b8562f;
+  --ok: #2f7d4f;
+  --highlight: #fdf4e7;
+  --danger-fg: #8a2c1c;
+  --danger-bg: #fdf0ed;
+  --danger-border: #f2cfc6;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #171614;
+    --surface: #201f1c;
+    --surface-strong: #262421;
+    --input-bg: #1a1917;
+    --border: #34322e;
+    --fg: #ebe9e4;
+    --muted: #9c9a93;
+    --accent: #e08757;
+    --ok: #6cc08c;
+    --highlight: #2b2620;
+    --danger-fg: #f0a493;
+    --danger-bg: #2c1c19;
+    --danger-border: #4a2d26;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+}
+
+a {
+  color: var(--accent);
+}
+
+table {
+  display: block;
+  overflow-x: auto;
+}

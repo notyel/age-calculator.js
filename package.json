@@ -1,17 +1,46 @@
 {
   "name": "age-calculation-library",
-  "version": "1.0.0",
-  "description": "Una biblioteca de JavaScript simple para calcular la edad desde la fecha de nacimiento",
-  "main": "dist/node/ageCalculator.js",
-  "module": "dist/browser/ageCalculator.js",
-  "browser": "dist/browser/ageCalculator.js",
+  "version": "2.0.0",
+  "description": "Cálculo de edad en TypeScript, correcto en cualquier zona horaria y consciente de la configuración regional: parseo y formato con Intl, cumpleaños, mayoría de edad por país y sistemas de cómputo de Asia Oriental.",
+  "main": "./dist/node/index.js",
+  "module": "./dist/browser/index.js",
+  "browser": "./dist/browser/index.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/browser/index.js",
+      "require": "./dist/node/index.js",
+      "default": "./dist/browser/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
-    "build": "npm run build-node && npm run build-browser",
-    "build-node": "tsc -p tsconfig.node.json",
-    "build-browser": "tsc -p tsconfig.browser.json",
-    "test": "npm run test-node && npm run test-browser",
-    "test-node": "node dist/node/test/test.js",
-    "test-browser": "node dist/browser/test/test.js"
+    "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true});require('node:fs').rmSync('dist-test',{recursive:true,force:true})\"",
+    "build": "npm run clean && npm run build:node && npm run build:browser && npm run build:types && npm run build:finalize",
+    "build:node": "tsc -p tsconfig.node.json",
+    "build:browser": "tsc -p tsconfig.browser.json",
+    "build:types": "tsc -p tsconfig.types.json",
+    "build:finalize": "node scripts/finalize-build.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "pretest": "tsc -p tsconfig.test.json",
+    "test": "node scripts/test.mjs",
+    "test:watch": "node scripts/test.mjs --watch",
+    "verify": "npm run typecheck && npm run test && npm run build && node scripts/smoke.mjs",
+    "demo:install": "npm --prefix demo install",
+    "demo:start": "npm --prefix demo start",
+    "demo:build": "npm --prefix demo run build",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -22,7 +51,15 @@
     "age calculator",
     "age-calculator",
     "calculate age",
-    "find age",
+    "birthday",
+    "date of birth",
+    "timezone",
+    "intl",
+    "i18n",
+    "l10n",
+    "locale",
+    "age of majority",
+    "zodiac",
     "typescript",
     "library",
     "calculator"
@@ -30,10 +67,11 @@
   "author": "Leyton Manuel Espitia Diaz",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/notyel/age-calculator.js.git/issues"
+    "url": "https://github.com/notyel/age-calculator.js/issues"
   },
-  "homepage": "https://github.com/notyel/age-calculator.js.git#readme",
+  "homepage": "https://github.com/notyel/age-calculator.js#readme",
   "devDependencies": {
-    "typescript": "^5.4.5"
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2"
   }
 }
